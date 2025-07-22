@@ -208,7 +208,7 @@ static bool mtk_disp_check_segment_mt6989(struct mtk_drm_crtc *mtk_crtc,
 	if (priv->is_iot && !efuse_status)
 		ret = false;
 
-	DDPMSG("%s iot=%d efuse_status=%d ret=%d\n", __func__, priv->is_iot, efuse_status, ret);
+	//DDPMSG("%s iot=%d efuse_status=%d ret=%d\n", __func__, priv->is_iot, efuse_status, ret);
 
 	return ret;
 }
@@ -230,11 +230,11 @@ bool mtk_disp_check_segment(struct mtk_drm_crtc *mtk_crtc,
 
 	if (seg_id_dbg) {
 		priv->seg_id = seg_id_dbg;
-		DDPMSG("%s, seg_id=%d\n", __func__, priv->seg_id);
+		//DDPMSG("%s, seg_id=%d\n", __func__, priv->seg_id);
 	}
 
 	if (priv->data->need_seg_id && !priv->is_tablet) {
-		DDPMSG("%s will check segment", __func__);
+		//DDPMSG("%s will check segment", __func__);
 		if (priv->data->mmsys_id == MMSYS_MT6878)
 			ret = mtk_disp_check_segment_mt6878(mtk_crtc, priv);
 		else if (priv->data->mmsys_id == MMSYS_MT6897)
@@ -437,8 +437,8 @@ static void mtk_disp_set_larb_hrt_bw(struct mtk_drm_crtc *mtk_crtc, unsigned int
 	for (i = 0; i < larb_count; i++) {
 		for (j = 0; j < MAX_HRT_LARB_NR; j++) {
 			if (priv->larbs_hrt_bw[crtc_idx][j].larb_id < 0) {
-				DDPMSG("%s, cannot find larb id:%d, bw:%u\n",
-					__func__, larb_list[i].larb_id, larb_list[i].larb_bw);
+				//DDPMSG("%s, cannot find larb id:%d, bw:%u\n",
+//					__func__, larb_list[i].larb_id, larb_list[i].larb_bw);
 				break;
 			}
 			if (priv->larbs_hrt_bw[crtc_idx][j].larb_id == larb_list[i].larb_id) {
@@ -567,7 +567,7 @@ int mtk_disp_set_hrt_bw(struct mtk_drm_crtc *mtk_crtc, unsigned int bw)
 		MTK_DRM_OPT_LAYERING_RULE_BY_LARB)) {
 		/*clear mmqos total bw after DPC is available for HRT BW update*/
 		DRM_MMP_MARK(hrt_bw, 0xffff0000, 1);
-		DDPMSG("%s,clear mmqos bw\n", __func__);
+		//DDPMSG("%s,clear mmqos bw\n", __func__);
 		mtk_icc_set_bw(priv->hrt_bw_request, 0, MBps_to_icc(1));
 		vidle_ready = true;
 	}
@@ -761,7 +761,7 @@ int mtk_disp_hrt_cond_change_cb(struct notifier_block *nb, unsigned long value,
 
 	switch (value) {
 	case BW_THROTTLE_START: /* CAM on */
-		DDPMSG("DISP BW Throttle start\n");
+		//DDPMSG("DISP BW Throttle start\n");
 		/* TODO: concider memory session */
 		DDPINFO("CAM trigger repaint\n");
 		hrt_idx = _layering_rule_get_hrt_idx(drm_crtc_index(dev_crtc));
@@ -772,7 +772,7 @@ int mtk_disp_hrt_cond_change_cb(struct notifier_block *nb, unsigned long value,
 		DDP_MUTEX_LOCK(&mtk_crtc->lock, __func__, __LINE__);
 		break;
 	case BW_THROTTLE_END: /* CAM off */
-		DDPMSG("DISP BW Throttle end\n");
+		//DDPMSG("DISP BW Throttle end\n");
 		/* TODO: switch DC */
 		DDP_MUTEX_UNLOCK(&mtk_crtc->lock, __func__, __LINE__);
 
@@ -868,12 +868,8 @@ void mtk_drm_mmdvfs_init(struct device *dev)
 	ret = of_property_read_u8(node, "vdisp-dvfs-opp", &vdisp_opp);
 	if (ret == 0) {
 		mm_freq_request = devm_regulator_get_optional(dev, "dis1-shutdown");
-		if (mm_freq_request == NULL)
-			DDPMSG("%s use vdisp opp(%u)\n", __func__, vdisp_opp);
-		else if (IS_ERR(mm_freq_request))
+		if (IS_ERR(mm_freq_request))
 			mm_freq_request = NULL;
-		else
-			DDPMSG("%s use vdisp but regulator flow\n", __func__);
 		return;
 	}
 
