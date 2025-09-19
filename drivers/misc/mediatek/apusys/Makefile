@@ -197,7 +197,9 @@ obj-$(CONFIG_MTK_APUSYS_SUPPORT) += power/
 # apusys power budget
 ccflags-y += -I$(DEVICE_MODULES_PATH)/drivers/misc/mediatek/pbm/
 ccflags-y += -I$(DEVICE_MODULES_PATH)/drivers/misc/mediatek/apusys/pbm/
+ifeq ($(CONFIG_MTK_PEAK_POWER_BUDGET),m)
 apusys-objs += pbm/apu_power_budget.o
+endif
 
 # mdla
 MDLA=$(DEVICE_MODULES_PATH)/drivers/misc/mediatek/apusys
