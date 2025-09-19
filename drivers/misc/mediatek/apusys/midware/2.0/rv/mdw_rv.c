@@ -184,13 +184,17 @@ static const struct mdw_dev_func mdw_rv_func = {
 	.dtime_handle = mdw_rv_dtime_handle,
 	.poll_cmd = mdw_rv_poll_cmd,
 	.cp_execinfo = mdw_rv_cp_execinfo,
+#if IS_ENABLED(CONFIG_MTK_PBM)
 	.pb_get = mdw_rv_pb_get,
 	.pb_put = mdw_rv_pb_put,
+#endif
 };
 
 void mdw_rv_set_func(struct mdw_device *mdev)
 {
+#if IS_ENABLED(CONFIG_MTK_PBM)
 	mdw_rv_pb_init(mdev);
+#endif
 
 	mdev->dev_funcs = &mdw_rv_func;
 	mdev->uapi_ver = 4;

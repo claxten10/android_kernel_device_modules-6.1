@@ -73,7 +73,9 @@ static int (*apusys_init_func[])(struct apusys_core_info *) = {
 #endif
 	mvpu_init,
 	apu_smmu_device_init,
+#if IS_ENABLED(CONFIG_MTK_PEAK_POWER_BUDGET)
 	apu_pbm_drv_init,
+#endif
 	apu_rproc_init,
 };
 
@@ -83,7 +85,9 @@ static int (*apusys_init_func[])(struct apusys_core_info *) = {
  */
 static void (*apusys_exit_func[])(void) = {
 	apu_rproc_exit,
+#if IS_ENABLED(CONFIG_MTK_PEAK_POWER_BUDGET)
 	apu_pbm_drv_exit,
+#endif
 	apu_smmu_device_exit,
 #if IS_ENABLED(CONFIG_MTK_APUSYS_DEBUG)
 	mvpu_exit,
