@@ -801,7 +801,9 @@ static int mt6989_dev_power_set(struct snd_kcontrol *kcontrol,
 	int power = 0;
 
 	power = ucontrol->value.integer.value[0];
+#if IS_ENABLED(CONFIG_MTK_PEAK_POWER_BUDGET)
 	kicker_ppb_request_power(KR_AUDIO, power);
+#endif
 
 	return 0;
 }

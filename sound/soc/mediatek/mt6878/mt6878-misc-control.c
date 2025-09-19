@@ -807,8 +807,10 @@ static int mt6878_dev_power_set(struct snd_kcontrol *kcontrol,
 	power = ucontrol->value.integer.value[0];
 
 	dev_dbg(afe->dev, "%s(), power = %d\n", __func__, power);
+#if IS_ENABLED(CONFIG_MTK_PEAK_POWER_BUDGET)
 #if !defined(SKIP_SB_PBM)
 	kicker_ppb_request_power(KR_AUDIO, power);
+#endif
 #endif
 	return 0;
 }
